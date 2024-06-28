@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Congratulations! You have been selected</title>
+</head>
+<body>
+    <p>Congratulations!</p>
+    
+    <p>You have been selected for the job "{{ job.title }}".</p>
+    
+    <p>Details:</p>
+    <ul>
+        <li>Job Title: {{ job.title }}</li>
+        <li>Location: {{ job.location }}</li>
+        <li>Company Name: {{ job.company_name }}</li>
+        <!-- Add more job details here as needed -->
+    </ul>
+    
+    <p>Please visit the following link for more information:</p>
+    <a href="{{ job.url }}">{{ job.url }}</a>
+    
+    <p>Thank you!</p>
+</body>
+</html>

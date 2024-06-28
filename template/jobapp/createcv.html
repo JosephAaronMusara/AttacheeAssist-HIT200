@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      {% if messages %}
+      <div class="alert alert-success" role="alert">
+          {% for message in messages %}
+          {{ message }}
+          {% endfor %}
+      </div>
+      {% endif %}
+      <h1 class="text-center mb-4">Fill In Your Details To Generate a CV</h1>
+      <form method="post">
+        {% csrf_token %}
+        {{ form | crispy }}
+        <button type="submit" class="btn btn-primary btn-block mt-3">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

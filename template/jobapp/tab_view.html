@@ -1,0 +1,312 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attachee Assist - Coordinator</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/coordinatorbootstrap.min.css' %}">
+    <style>
+        .hidden {
+            display: none;
+        }
+        nav {
+            background-color: #333;
+            display: flex; /* Arrange links horizontally, optional */
+            justify-content: space-between; /* Distribute links evenly, optional */
+            padding: 10px;
+          }
+        
+          nav ul {
+            list-style: none; /* Remove default bullet points */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+          }
+        
+          nav li {
+            display: inline-block; /* Can be removed, not necessary here */
+            color: white;
+          }
+        
+          nav a {
+            color: white; /* Set link text color */
+            text-decoration: none; /* Remove underline */
+            padding: 10px; /* Add padding to links */
+          }
+        
+          nav a:hover {
+            background-color: #111; /* Change background on hover */
+          }
+        
+          /* Style for the logout button to position it to the right edge */
+          nav li:last-child {
+            position: absolute;
+            right: 0; /* Place the button at the right edge */
+          }
+          
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+          <li>Current User: {{current_user.role | upper}} - {{current_user.get_full_name}}</a>
+
+          <li><a href="{%url 'account:logout'%}">Logout</a></li>
+        </ul>
+      </nav>
+    <ul class="nav nav-tabs " style="padding-top: 30px;" >
+        <li class="nav-item">
+            <a class="nav-link {% if selected_tab == 'all' %}active{% endif %}" id="tab-all" data-toggle="tab" href="#all">All</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if selected_tab == 'attached' %}active{% endif %}" id="tab-attached" data-toggle="tab" href="#attached">Attached</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if selected_tab == 'registered' %}active{% endif %}" id="tab-registered" data-toggle="tab" href="#registered">Registered</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if selected_tab == 'department' %}active{% endif %}" id="tab-department" data-toggle="tab" href="#department">By Department</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if selected_tab == 'have_supervisor' %}active{% endif %}" id="tab-have-supervisor" data-toggle="tab" href="#have_supervisor">With Supervisor</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if selected_tab == 'have_no_supervisor' %}active{% endif %}" id="tab-have-no-supervisor" data-toggle="tab" href="#have_no_supervisor">Without Supervisor</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if selected_tab == 'assessments' %}active{% endif %}" id="tab-assessments" data-toggle="tab" href="#assessments">Assessment Records</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="all" class="tab-pane fade {% if selected_tab == 'all' %}show active{% endif %}">
+            <div class="table-responsive">
+                <table class="table text-center">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th>Registered</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students_all %}
+                        <tr>
+                            <td class="text-center"><a href="{% url 'jobapp:coordinator-all-students' student.user.id %}">{{ student.user.get_full_name | upper }}</a></td>
+                            <td>{{ student.department| upper }}</td>
+                            <td>{{ student.registration_status }}</td>
+                            <td>
+                                <a class="btn btn-info btn-sm" href="{% url 'jobapp:coordinator-all-students' student.user.id %}" role="button">Click</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="attached" class="tab-pane fade {% if selected_tab == 'attached' %}show active{% endif %}">
+            <div class="table-responsive">
+                <table class="table text-center">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Attached Company</th>
+                            <th>School Supervisor</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students_attached %}
+                        <tr>
+                            <td class="text-center"><a href="{% url 'jobapp:coordinator-attatched-student-details' student.id %}">{{ student.user.get_full_name | upper }}</a></td>
+                            <td>{{ student.attached_company }}</td>
+                            <td>{{ student.supervisor_from_school| upper }}</td>
+                            
+                            
+                            <td>
+                                <a class="btn btn-info btn-sm" href="{% url 'jobapp:coordinator-attatched-student-details' student.id %}" role="button">Click</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="registered" class="tab-pane fade {% if selected_tab == 'registered' %}show active{% endif %}">
+            <div class="table-responsive">
+                <table class="table text-center">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th>Attached</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students_registered %}
+                        <tr>
+                            <td class="text-center"><a href="{% url 'jobapp:coordinator-all-students' student.user.id %}">{{ student.user.get_full_name | upper }}</a></td>
+                            <td>{{ student.department| upper }}</td>
+                            <td>{% if student.attatchment_status == True %}
+                                YES
+                              {% else %}
+                                NO
+                              {% endif %}</td>
+                        
+                            <td>
+                                <a class="btn btn-info btn-sm" href="{% url 'jobapp:coordinator-all-students' student.user.id %}" role="button">Click</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="department" class="tab-pane fade {% if selected_tab == 'department' %}show active{% endif %}">
+            <div class="table-responsive">
+                <table class="table text-center">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th>Registered</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students_by_department %}
+                        <tr>
+                            <td class="text-center"><a href="{% url 'jobapp:coordinator-all-students' student.user.id %}">{{ student.user.get_full_name | upper }}</a></td>
+                            <td>{{ student.department| upper }}</td>
+                            <td>{% if student.registration_status == True %}
+                                YES
+                              {% else %}
+                                NO
+                              {% endif %}</td>
+                            <td>
+                                <a class="btn btn-info btn-sm" href="{% url 'jobapp:coordinator-all-students' student.user.id %}" role="button">Click</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="have_supervisor" class="tab-pane fade {% if selected_tab == 'have_supervisor' %}show active{% endif %}">
+            <div class="table-responsive">
+                <table class="table text-center">
+                    <thead class="thead-dark">
+                        <tr>
+
+
+                            <th>Name</th>
+                            <th>Attached Company</th>
+                            <th>School Supervisor</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students_with_supervisor %}
+                        <tr>
+                            <td class="text-center"><a href="{% url 'jobapp:coordinator-attatched-student-details' student.id %}">{{ student.user.get_full_name | upper }}</a></td>
+                            <td>{{ student.attached_company| upper }}</td>
+                            <td>{{ student.supervisor_from_school }}</td>
+                            <td>
+                                <a class="btn btn-info btn-sm" href="{% url 'jobapp:coordinator-attatched-student-details' student.id %}" role="button">Click</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="have_no_supervisor" class="tab-pane fade {% if selected_tab == 'have_no_supervisor' %}show active{% endif %}">
+            <div class="table-responsive">
+                <table class="table text-center">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Reg Number</th>
+                            <th>Registered</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students_without_supervisor %}
+                        <tr>
+                            <td class="text-center"><a href="{% url 'jobapp:coordinator-attatched-student-details' student.id %}">{{ student.user.get_full_name | upper }}</a></td>
+                            <td>{{ student.reg_number.reg_number| upper }}</td>
+                            <td>{% if student.registration_status == True %}
+                                YES
+                              {% else %}
+                                NO
+                              {% endif %}</td>
+                            <td>
+                                <a class="btn btn-info btn-sm" href="{% url 'jobapp:assign-supervisor' student.id %}" role="button">Assign Supervisor</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="assessments" class="tab-pane fade {% if selected_tab == 'assessments' %}show active{% endif %}">
+            <div class="table-responsive">
+                <table class="table text-center">
+                    <thead class="thead-dark">
+                        <tr>
+
+
+                            <th>Student</th>
+                            <th>Supervisor</th>
+                            <th>Assessment Number</th>
+                            <th>Assessment Details</th>
+                            <th>Mark</th>
+                            <th>Assessment Date</th>
+                            <th>Additional Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for assessment in assessments %}
+                        <tr>
+                            <td>{{ assessment.student.user.get_full_name }}</td>
+                            <td>{{ assessment.supervisor.get_full_name }}</td>
+                            <td>{{ assessment.assessment_number }}</td>
+                            <td>{{ assessment.assessment_details }}</td>
+                            <td>{{ assessment.marks }}</td>
+                            <td>{{ assessment.assessment_date }}</td>
+                            <td>{{ assessment.additional_comments }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            // Show the table corresponding to the selected tab
+            $('.nav-link').on('click', function(){
+                $('.tab-pane').removeClass('show active');
+                $($(this).attr('href')).addClass('show active');
+            });
+        });
+    </script>
+</body>
+</html>

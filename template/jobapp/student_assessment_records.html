@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Assessment Details</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Assessment Details for {{ assessment.student.user.get_full_name }}</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Assessment Number</th>
+                <th>Assessment Date</th>
+                <th>Marks</th>
+                <th>Additional Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for assessment in assessments %}
+            <tr>
+                <td>{{ assessment.student.user.get_full_name }}</td>
+                <td>{{ assessment.assessment_number }}</td>
+                <td>{{ assessment.assessment_date }}</td>
+                <td>{{ assessment.marks }}</td>
+                <td>{{ assessment.additional_comments }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

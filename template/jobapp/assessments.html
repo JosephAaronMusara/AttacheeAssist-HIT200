@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<br>
+    <h1>Assessment List</h1>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Student</th>
+                    <th>Supervisor</th>
+                    <th>Assessment Number</th>
+                    <th>Assessment Details</th>
+                    <th>Marks</th>
+                    <th>Assessment Date</th>
+                    <th>Additional Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for assessment in assessments %}
+                <tr>
+                    <td>{{ assessment.student.user.get_full_name }}</td>
+                    <td>{{ assessment.supervisor.get_full_name }}</td>
+                    <td>{{ assessment.assessment_number }}</td>
+                    <td>{{ assessment.assessment_details }}</td>
+                    <td>{{ assessment.marks }}</td>
+                    <td>{{ assessment.assessment_date }}</td>
+                    <td>{{ assessment.additional_comments }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

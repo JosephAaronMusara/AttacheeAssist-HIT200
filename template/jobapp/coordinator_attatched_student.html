@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %} 
+
+{% block content %}
+
+    <!-- HOME -->
+    <section class="section-hero overlay inner-page bg-image" style="background-image: url('{% static 'images/hero_1.jpg' %}');" id="home-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-7">
+            <h1 class="text-white font-weight-bold">{{ student_details.get_full_name | upper }}</h1>
+            <div class="custom-breadcrumbs">
+              <a href="{% url 'jobapp:home' %}">Home</a> <span class="mx-2 slash">/</span>
+              <span class="text-white"><strong>ATTACHEE</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="site-section block__18514" id="next-section">
+      <div class="container">
+          <div class="col-lg-8">
+            <span class="text-primary d-block mb-5"><span class="icon-magnet display-1"></span></span>
+            <h2 class="mb-4"> {{ student_details.reg_number | upper }}</h2>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th scope="row">Registration Number</th>
+                  <td>{{ student_details.reg_number.reg_number | upper }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Attached Company</th>
+                  <td>{{ student_details.attached_company | upper }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Supervisor at Work</th>
+                  <td>{{ student_details.supervisor_at_work | upper }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Contact Details (Work)</th>
+                  <td>{{ student_details.supervisor_at_work.phone_number | upper }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Registration Status</th>
+                  <td>
+                    {% if student_details.registration_status == True %}
+                      Registered
+                    {% else %}
+                      Not Registered
+                    {% endif %}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Supervisor from School</th>
+                  <td>{{ student_details.supervisor_from_school | upper }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Contact Details (School)</th>
+                  <td>{{ student_details.supervisor_from_school.phone_number | upper }}</td>
+                </tr>
+                <tr>
+                <tr>
+                  <th scope="row">Period of Attachment</th>
+                  <td>{{ student_details.period_of_attachment }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Changed Company</th>
+                  <td>
+                    {% if student_details.change_of_company == True %}
+                      Changed
+                    {% else %}
+                      Never Changed
+                    {% endif %}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Additional Comments</th>
+                  <td>{{ student_details.additional_comments | title }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %} 
+{% block content %}
+
+
+
+    <!-- HOME -->
+    <section class="section-hero overlay inner-page bg-image" style="background-image: url('{% static 'images/hero_1.jpg' %}');" id="home-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-7">
+            <h1 class="text-white font-weight-bold">{{ applicant.get_full_name }}</h1>
+            <div class="custom-breadcrumbs">
+              <a href="{% url 'jobapp:home' %}">Home</a> <span class="mx-2 slash">/</span>
+              <span class="text-white"><strong>Applicant</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="site-section block__18514" id="next-section">
+      <div class="container">
+          <div class="col-lg-8">
+            <span class="text-primary d-block mb-5"><span class="icon-magnet display-1"></span></span>
+            <h2 class="mb-4">{{ applicant.get_full_name }}</h2>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th scope="row">RegNumber</th>
+                  <td>{{ appdetails.reg_number }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Email</th>
+                  <td>{{ applicant.email }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Department</th>
+                  <td>{{ appdetails.department }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">GPA</th>
+                  <td>{{ appdetails.gpa }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Experience</th>
+                  <td>{{ appdetails.experience }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Phone</th>
+                  <td>{{ appdetails.phone_number }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Residential Address</th>
+                  <td>{{ appdetails.residentialaddress }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Next Of Kin</th>
+                  <td>{{ appdetails.nextofkin }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Next Of Kin Phone</th>
+                  <td>{{ appdetails.nextofkincontact }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Gender</th>
+                  <td>
+                    {% if applicant.gender == 'M' %}
+                      Male
+                    {% else %}
+                      Female
+                    {% endif %}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <p><a href="mailto:{{ applicant.email }}" class="btn btn-primary btn-md mt-4">Contact</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+
+
+{% endblock %}

@@ -1,0 +1,75 @@
+<!-- student_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student List</title>
+    <style>
+      table {
+          width: 100%;
+          border-collapse: collapse;
+      }
+      th, td {
+          border: 1px solid #dddddd;
+          padding: 8px;
+          text-align: left;
+      }
+      th {
+          background-color: #f2f2f2;
+      }
+      tr:nth-child(even) {
+          background-color: #f9f9f9;
+      }
+  </style>
+</head>
+<body>
+    <form method="GET">
+        <select name="filter_choice">
+          <option value="all">All Students</option>
+          <option value="registered">Registered Students</option>
+          <option value="attached">Attached Students</option>
+          <option value="department">Department</option>
+          <option value="have_supervisor">Students with Supervisor</option>
+          <option value="have_no_supervisor">Students without Supervisor</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+    <table>
+        <tr>
+            <th>Registration Number</th>
+            <th>Surname</th>
+            <th>Attached Company</th>
+            <th>Supervisor at Work</th>
+            <th>Contact Details (Work)</th>
+            <th>Registration Status</th>
+            <th>Supervisor from School</th>
+            <th>Contact Details (School)</th>
+            <th>First Visit Details</th>
+            <th>First Marks</th>
+            <th>Second Visit Details</th>
+            <th>Second Marks</th>
+            <th>Period of Attachment</th>
+            <th>Change of Company</th>
+            <th>Additional Comments</th>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.reg_number }}</td>
+            <td>{{ student.reg_number.surname }}</td>
+            <td>{{ student.attached_company }}</td>
+            <td>{{ student.supervisor_at_work }}</td>
+            <td>{{ student.contact_details_work }}</td>
+            <td>{{ student.registration_status }}</td>
+            <td>{{ student.supervisor_from_school }}</td>
+            <td>{{ student.contact_details_school }}</td>
+            <td>{{ student.first_visit_details }}</td>
+            <td>{{ student.first_marks }}</td>
+            <td>{{ student.second_visit_details }}</td>
+            <td>{{ student.second_marks }}</td>
+            <td>{{ student.period_of_attachment }}</td>
+            <td>{{ student.change_of_company }}</td>
+            <td>{{ student.additional_comments }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

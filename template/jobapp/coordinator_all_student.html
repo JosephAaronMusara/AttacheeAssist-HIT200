@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %} 
+{% block content %}
+
+
+
+    <!-- HOME -->
+    <section class="section-hero overlay inner-page bg-image" style="background-image: url('{% static 'images/hero_1.jpg' %}');" id="home-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-7">
+            <h1 class="text-white font-weight-bold">{{ student_details.get_full_name | upper }}</h1>
+            <div class="custom-breadcrumbs">
+              <a href="{% url 'jobapp:home' %}">Home</a> <span class="mx-2 slash">/</span>
+              <span class="text-white"><strong>Student</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="site-section block__18514" id="next-section">
+      <div class="container">
+          <div class="col-lg-8">
+            <span class="text-primary d-block mb-5"><span class="icon-magnet display-1"></span></span>
+            <h2 class="mb-4">{{ student_details.user.last_name | upper }} {{ student_details.reg_number | upper }}</h2>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th scope="row">Registration Number</th>
+                  <td>{{ student_details.reg_number | upper }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Email</th>
+                  <td>{{ student_details.user.email }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Department</th>
+                  <td>{{ student_details.department |upper }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">GPA</th>
+                  <td>{{ student_details.gpa }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Experience</th>
+                  <td>{{ student_details.experience | title }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Phone</th>
+                  <td>{{ student_details.phone_number }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Residential Address</th>
+                  <td>{{ student_details.residentialaddress | title }}</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Registration Status</th>
+                    <td>
+                      {% if student_details.registration_status == True %}
+                        Registered
+                      {% else %}
+                        Not Registered
+                      {% endif %}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <th scope="row">Attachment Status</th>
+                    <td>
+                      {% if student_details.attatchment_status == True %}
+                        Attatched
+                      {% else %}
+                        Not Attatched
+                      {% endif %}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Next Of Kin</th>
+                    <td>{{ student_details.nextofkin | upper }}</td>
+                  </tr>
+                <tr>
+                  <th scope="row">Next Of Kin Phone</th>
+                  <td>{{ student_details.nextofkincontact }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Gender</th>
+                  <td>
+                    {% if student_details.gender == 'M' %}
+                      Male
+                    {% else %}
+                      Female
+                    {% endif %}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <p><a href="mailto:{{ student_details.user.email }}" class="btn btn-primary btn-md mt-4">Contact</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+
+
+{% endblock %}
